@@ -8,8 +8,8 @@ class str {
 	ll len = 0;
 	char *buffer = nullptr;
 public:
-	// Перегрузка операторов
-		// Внутренних:
+	// Operator overloading
+		// Internal:
 			str();
 			str(const char *arr);
 			str(const str &obj);
@@ -37,12 +37,12 @@ public:
 			bool operator==(const str &obj) const;
 			char operator[](ll index) const;
 			char *operator()() const;
-		// Внешних:
+		// External:
 			friend str operator+(const char *left, const str &right);
 			friend str operator+(char left, const str &right);
 			friend ostream &operator<<(ostream &out, const str &obj);
 			friend istream &operator>>(istream &in, str &obj);
-	// Методы класса
+	// Class str methods
 		const ll size() const;
 		ll find_first(char ch) const;
 		ll find_first_string(str obj) const;
