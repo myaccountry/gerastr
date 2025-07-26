@@ -186,26 +186,26 @@ istream &operator>>(istream &in, str &obj) {
 	return in;
 };
 
-/* Возвращает символ по указанному индексу в буфере 
-Индекс "-1" указывает на последний элемент буфера 
-Индекс "-2" на второй элемент с конца и т.д. */
+/* Returns the character at the specified index in the buffer
+Index "-1" points to the last element of the buffer
+Index "-2" points to the second element from the end, etc. */
 char str::operator[](ll index) const {
 	if (index < 0)
 		index = len - index;
 	return buffer[index];
 };
 
-// Возвращает массив char текущего буфера
+// Returns the char array of the current buffer
 char *str::operator()() const {
 	return buffer;
 };
 
-// Возвращает размер текущего буфера
+// Returns the size of the current buffer
 const ll str::size() const {
 	return len;
 };
 
-// Возвращает индекс искомого элемента в буфере
+// Returns the index of the searched element in the buffer
 ll str::find_first(char ch) const {
 	for (ll i = 0; i < len; i++)
 		if (buffer[i] == ch)
@@ -213,7 +213,7 @@ ll str::find_first(char ch) const {
 	return '\0';
 };
 
-// Возвращает индекс первого элемента искомой строки в буфере
+// Returns the index of the first element of the search string in the buffer
 ll str::find_first_string(str obj) const {
 	for (ll i = 0; i < len; i++)
 		if (buffer[i] == obj[0])
@@ -222,7 +222,7 @@ ll str::find_first_string(str obj) const {
 	return '\0';
 };
 
-// Проверяет содержится ли символ в буфере
+// Checks if the character is in the buffer
 bool str::contain(char ch) const {
 	for (ll i = 0; i < len; i++)
 		if (buffer[i] == ch)
@@ -230,7 +230,7 @@ bool str::contain(char ch) const {
 	return false;
 };
 
-// Проверяет содержится ли строка в буфере
+// Checks if the string is in the buffer
 bool str::contain_string(str obj) const {
 	for (ll i = 0; i < len; i++)
 		if (buffer[i] == obj[0])
@@ -239,7 +239,7 @@ bool str::contain_string(str obj) const {
 	return false;
 }
 
-// Возвращает массив char по заданным границам
+// Returns a char array with the given bounds
 char *str::read(ll left, ll right) const {
 	if (left == right) {
 		char *empty = new char[1];
@@ -262,19 +262,19 @@ char *str::read(ll left, ll right) const {
 	return new_buffer;
 };
 
-// Удаляет последний элемент
+// Removes the last element
 void str::pop_back() {
 	str result = read(0, len - 1);
 	copy(result);
 };
 
-// Удаляет первый элемент
+// Removes the first element
 void str::pop_forward() {
 	str result = read(1, len);
 	copy(result);
 };
 
-// Удаляет некоторое количество элементов по индексу
+// Removes some number of elements by index
 void str::remove(ll index, ll amount) {
 	if (index == -1)
 		index = len - 1;
@@ -299,7 +299,7 @@ void str::remove(ll index, ll amount) {
 	copy(result);
 };
 
-// Инвертирует строку по заданным границам
+// Inverts a string at the given boundaries
 void str::reverse(ll left, ll right) {
 	if (right == -1)
 		right = len - 1;
@@ -309,6 +309,7 @@ void str::reverse(ll left, ll right) {
 	copy(result);
 };
 
+// You dont need to use it :)
 void str::copy(const str &obj) {
 	buffer = new char[obj.len];
 	for (ll i = 0; obj[i] != '\0'; i++)
@@ -317,6 +318,7 @@ void str::copy(const str &obj) {
 	len = obj.len;
 };
 
+// You dont need to use it :)
 str str::copy_add(const str &obj) const {
 	char *new_buffer = new char[len + obj.len];
 	for (ll i = 0; i < len + obj.len; i++) {
@@ -331,7 +333,7 @@ str str::copy_add(const str &obj) const {
 	return result;
 };
 
-// Вставка элементов перед индексом
+// Insert elements before index
 void str::insert(str obj, ll index) {
 	str result = read(0, index);
 	result += obj;
@@ -339,7 +341,7 @@ void str::insert(str obj, ll index) {
 	copy(result);
 };
 
-// Количество символов в буфере
+// Number of characters in the buffer
 ll str::count(char ch) const {
 	ll cnt = 0;
 	for (ll i = 0; i < len; i++)
@@ -348,8 +350,8 @@ ll str::count(char ch) const {
 	return cnt;
 };
 
-/* Метод возвращающий массив из объектов класса str
-Заполненный строками разделенными по символу ch */
+/* Method returning an array of objects of class str
+Filled with strings separated by the ch character */
 str *str::parse(char ch) const {
 	const ll cnt = count(ch) + 1;
 	str *result = new str[cnt];
@@ -369,12 +371,12 @@ str *str::parse(char ch) const {
 	return result;
 };
 
-// Возвращает массив char текущего объекта
+// Returns the char array of the current object
 char *str::to_char() const {
 	return buffer;
 };
 
-// Возвращает целочисленное значение текущего объекта
+// Returns the integer value of the current object
 ll str::to_int() const {
 	ll k = 1;
 	ll result = 0;
@@ -389,7 +391,7 @@ ll str::to_int() const {
 	return result;
 };
 
-// Возвращает значение с плавающей точкой текущего объекта
+// Returns the floating point value of the current object
 long double str::to_float() const {
 	double k = 0.1;
 	long double result = 0.0;
@@ -406,24 +408,24 @@ long double str::to_float() const {
 	return result;
 };
 
-// Перевод в 2-ую систему счисления
+// Translation into the 2th number system
 str str::bin() const {
 	return notation(2);
 };
 
-// Перевод в 8-ую систему счисления
+// Translation into the 8th number system
 str str::oct() const {
 	return notation(8);
 };
 
-// Перевод в 16-ую систему счисления
+// Translation into the 16th number system
 str str::hex() const {
 	return notation(16);
 }
 
-/* Переводит строковые "целочисленные" значения в 10-ой системе 
-в различные системы счислений до 16-ой включительно
-8 388 607 - максимальное число которое способен принять объект класса */
+/* Translates string "integer" values in the 10th system
+into various number systems up to and including the 16th
+8,388,607 is the maximum number that an object of the class can accept */
 str str::notation(ll k) const {
 	const str alphabet = "0123456789ABCDEF";
 	str result = "";
@@ -439,8 +441,8 @@ str str::notation(ll k) const {
 	return result;
 };
 
-/* Переводит строковое значение из различных систем 
-счислений в строку с "целочисленным" значением в 10-ой системе */
+/* Converts a string value from various number systems to a 
+string with an "integer" value in the 10th system */
 str str::decimal(ll n) const {
 	const str alphabet = "0123456789ABCDEF";
 	str result = "";
@@ -457,8 +459,8 @@ str str::decimal(ll n) const {
 	return result;
 }
 
-/* Добавляет целочисленное значение к буферу, конвертируя каждый разряд в char 
-9 223 372 036 854 775 807 - максимальное значение, которое может принять метод */
+/* Adds an integer value to the buffer, converting each bit to a char
+9,223,372,036,854,775,807 is the maximum value the method can accept */
 void str::add(ll num) {
 	str result = "";
 	bool negative = false;
@@ -480,7 +482,7 @@ void str::add(ll num) {
 	copy(result);
 };
 
-// Очищает буфер объекта
+// Clears the object buffer
 void str::clear() {
 	buffer = new char[1];
 	buffer[0] = '\0';
