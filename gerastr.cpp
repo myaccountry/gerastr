@@ -163,6 +163,34 @@ bool str::operator==(const str &obj) const {
 	return true;
 };
 
+bool str::operator!=(const str &obj) const {
+	return !(obj == *this);
+};
+bool str::operator>=(const str &obj) const {
+	if (len >= obj.len)
+		return true;
+	else
+		return false;
+};
+bool str::operator<=(const str &obj) const {
+	if (len <= obj.len)
+		return true;
+	else
+		return false;
+};
+bool str::operator>(const str &obj) const {
+	if (len > obj.len)
+		return true;
+	else
+		return false;
+};
+bool str::operator<(const str &obj) const {
+	if (len < obj.len)
+		return true;
+	else
+		return false;
+};
+
 str operator+(const char *left, const str &right) {
 	return str(left) + right;
 };

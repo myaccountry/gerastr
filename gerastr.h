@@ -35,6 +35,11 @@ public:
 			str operator+(int num) const;
 			str operator*(ll num) const;
 			bool operator==(const str &obj) const;
+			bool operator!=(const str &obj) const;
+			bool operator>=(const str &obj) const;
+			bool operator<=(const str &obj) const;
+			bool operator>(const str &obj) const;
+			bool operator<(const str &obj) const;
 			char operator[](ll index) const;
 			char *operator()() const;
 		// Внешних:
