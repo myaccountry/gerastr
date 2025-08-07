@@ -72,5 +72,6 @@ public:
 		str notation(ll k = 2) const;
 		str decimal(ll n) const;
 		void add(ll num);
+		unsigned long hash() const;
 		void clear();
 };

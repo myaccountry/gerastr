@@ -200,7 +200,7 @@ str operator+(char left, const str &right) {
 };
 
 ostream &operator<<(ostream &out, const str &obj) {
-	out << obj.buffer;
+	out << '"' << obj.buffer << '"';
 	return out;
 };
 
@@ -508,6 +508,14 @@ void str::add(ll num) {
 	else
 		result = str(read(0, len)) + result;
 	copy(result);
+};
+
+unsigned long str::hash() const {
+	unsigned long hash = 5381;
+    for (size_t i = 0; i < len; i++) {
+        hash = ((hash << 5) + hash) + buffer[i];
+    }
+    return hash;
 };
 
 // Clears the object buffer
