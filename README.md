@@ -28,7 +28,7 @@ make all
   
 **Use it!**  
 ```C++
-#include <gerastr.h>
+#include <gerastr.hpp>
 ```  
 **On compilation add**   
 ```Shell

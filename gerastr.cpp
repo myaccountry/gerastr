@@ -1,16 +1,14 @@
 #include <iostream>
-#include "gerastr.h"
-using namespace std;
-using ll = long long;
+#include "gerastr.hpp"
 
-ll my_abs(ll x) {
+long long my_abs(long long x) {
 	if (x < 0)
 		return -x;
 	return x;
 }
 
-ll capacity(ll x) {
-	ll k = 1;
+long long capacity(long long x) {
+	long long k = 1;
 	while (x > 9) {
 		k++;
 		x /= 10;
@@ -18,7 +16,10 @@ ll capacity(ll x) {
 	return k;
 }
 
-str::str() : len(0) {};
+str::str() : len(0) {
+	buffer = new char[1];
+	buffer[0] = '\0';
+};
 
 str::str(const char *arr) {
 	len = 0;
@@ -26,14 +27,14 @@ str::str(const char *arr) {
 		len++;
 
 	buffer = new char[len + 1];
-	for (ll i = 0; arr[i] != '\0'; i++)
+	for (size_t i = 0; arr[i] != '\0'; i++)
 		buffer[i] = arr[i];
 	buffer[len] = '\0';
 };
 
 str::str(const str &obj) : len(obj.len) {
 	buffer = new char[len + 1];
-	for (ll i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++)
 		buffer[i] = obj[i];
 };
 
@@ -43,15 +44,15 @@ str::str(char ch) : len(1) {
 	buffer[1] = '\0';
 };
 
-str::str(ll num) : len(capacity(num)) {
+str::str(long long num) : len(capacity(num)) {
 	str result = "";
 	result.add(num);
 	copy(result);
 };
 
-str::str(int num) : len(capacity(static_cast<ll>(num))) {
+str::str(int num) : len(capacity(static_cast<long long>(num))) {
 	str result = "";
-	result.add(static_cast<ll>(num));
+	result.add(static_cast<long long>(num));
 	copy(result);
 };
 
@@ -79,14 +80,14 @@ str &str::operator=(char ch) {
 	return *this;
 };
 
-str &str::operator=(ll num) {
+str &str::operator=(long long num) {
 	clear();
 	add(num);
 	return *this;
 };
 
 str &str::operator=(int num) {
-	return operator=(static_cast<ll>(num));
+	return operator=(static_cast<long long>(num));
 };
 
 str &str::operator+=(const str &obj) {
@@ -110,16 +111,16 @@ str &str::operator+=(char ch) {
 	return *this;
 };
 
-str &str::operator+=(ll num) {
+str &str::operator+=(long long num) {
 	add(num);
 	return *this;
 };
 
 str &str::operator+=(int num) {
-	return operator+=(static_cast<ll>(num));
+	return operator+=(static_cast<long long>(num));
 };
 
-str &str::operator*=(ll num) {
+str &str::operator*=(long long num) {
 	str result = str(read(0, len)) * num;
 	copy(result);
 	return *this;
@@ -137,19 +138,19 @@ str str::operator+(char ch) const {
 	return copy_add(str(ch));
 };
 
-str str::operator+(ll num) const {
+str str::operator+(long long num) const {
 	str result = read(0, len);
 	result.add(num);
 	return result;
 };
 
 str str::operator+(int num) const {
-	return operator+(static_cast<ll>(num));
+	return operator+(static_cast<long long>(num));
 };
 
-str str::operator*(ll num) const {
+str str::operator*(long long num) const {
 	str result = "";
-	for (ll i = 0; i < num; i++)
+	for (size_t i = 0; i < num; i++)
 		result += read(0, len);
 	return result;
 };
@@ -157,7 +158,7 @@ str str::operator*(ll num) const {
 bool str::operator==(const str &obj) const {
 	if (len != obj.len)
 		return false;
-	for (ll i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++)
 		if (buffer[i] != obj[i])
 			return false;
 	return true;
@@ -199,12 +200,12 @@ str operator+(char left, const str &right) {
 	return str(left) + right;
 };
 
-ostream &operator<<(ostream &out, const str &obj) {
+std::ostream &operator<<(std::ostream &out, const str &obj) {
 	out << '"' << obj.buffer << '"';
 	return out;
 };
 
-istream &operator>>(istream &in, str &obj) {
+std::istream &operator>>(std::istream &in, str &obj) {
 	char *new_buffer = new char[1024];
 	in.getline(new_buffer, 1024);
 	if (obj.buffer != nullptr)
@@ -217,7 +218,7 @@ istream &operator>>(istream &in, str &obj) {
 /* Returns the character at the specified index in the buffer
 Index "-1" points to the last element of the buffer
 Index "-2" points to the second element from the end, etc. */
-char str::operator[](ll index) const {
+char str::operator[](long long index) const {
 	if (index < 0)
 		index = len - index;
 	return buffer[index];
@@ -229,21 +230,21 @@ char *str::operator()() const {
 };
 
 // Returns the size of the current buffer
-const ll str::size() const {
+const long long str::size() const {
 	return len;
 };
 
 // Returns the index of the searched element in the buffer
-ll str::find_first(char ch) const {
-	for (ll i = 0; i < len; i++)
+size_t str::find_first(char ch) const {
+	for (size_t i = 0; i < len; i++)
 		if (buffer[i] == ch)
 			return i;
 	return '\0';
 };
 
 // Returns the index of the first element of the search string in the buffer
-ll str::find_first_string(str obj) const {
-	for (ll i = 0; i < len; i++)
+size_t str::find_first_string(str obj) const {
+	for (size_t i = 0; i < len; i++)
 		if (buffer[i] == obj[0])
 			if (str(read(i, i + obj.len)) == obj)
 				return i;
@@ -252,7 +253,7 @@ ll str::find_first_string(str obj) const {
 
 // Checks if the character is in the buffer
 bool str::contain(char ch) const {
-	for (ll i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++)
 		if (buffer[i] == ch)
 			return true;
 	return false;
@@ -260,7 +261,7 @@ bool str::contain(char ch) const {
 
 // Checks if the string is in the buffer
 bool str::contain_string(str obj) const {
-	for (ll i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++)
 		if (buffer[i] == obj[0])
 			if (str(read(i, i + obj.len)) == obj)
 				return true;
@@ -268,22 +269,22 @@ bool str::contain_string(str obj) const {
 }
 
 // Returns a char array with the given bounds
-char *str::read(ll left, ll right) const {
+char *str::read(long long left, long long right) const {
 	if (left == right) {
 		char *empty = new char[1];
 		empty[0] = '\0';
 		return empty;
 	}
 
-	ll length = my_abs(right - left);
-	char *new_buffer = new char[length];
+	long long length = my_abs(right - left);
+	char *new_buffer = new char[length + 1];
 	
-	ll j = 0;
+	long long j = 0;
 	if (left < right)
-		for (ll i = left; j < length; i++)
+		for (long long i = left; j < length; i++)
 			new_buffer[j++] = buffer[i];
 	else
-		for (ll i = left; j < length; i--)
+		for (long long i = left; j < length; i--)
 			new_buffer[j++] = buffer[i];
 
 	new_buffer[length] = '\0';
@@ -303,7 +304,7 @@ void str::pop_forward() {
 };
 
 // Removes some number of elements by index
-void str::remove(ll index, ll amount) {
+void str::remove(long long index, long long amount) {
 	if (index == -1)
 		index = len - 1;
 	if (amount < 1)
@@ -328,7 +329,7 @@ void str::remove(ll index, ll amount) {
 };
 
 // Inverts a string at the given boundaries
-void str::reverse(ll left, ll right) {
+void str::reverse(long long left, long long right) {
 	if (right == -1)
 		right = len - 1;
 	str result = read(0, left);
@@ -339,8 +340,9 @@ void str::reverse(ll left, ll right) {
 
 // You dont need to use it :)
 void str::copy(const str &obj) {
-	buffer = new char[obj.len];
-	for (ll i = 0; obj[i] != '\0'; i++)
+	delete[] buffer;
+	buffer = new char[obj.len + 1];
+	for (size_t i = 0; obj[i] != '\0'; i++)
 		buffer[i] = obj[i];
 	buffer[obj.len] = '\0';
 	len = obj.len;
@@ -348,8 +350,8 @@ void str::copy(const str &obj) {
 
 // You dont need to use it :)
 str str::copy_add(const str &obj) const {
-	char *new_buffer = new char[len + obj.len];
-	for (ll i = 0; i < len + obj.len; i++) {
+	char *new_buffer = new char[len + obj.len + 1];
+	for (size_t i = 0; i < len + obj.len; i++) {
 		if (i < len)
 			new_buffer[i] = buffer[i];
 		else
@@ -362,7 +364,7 @@ str str::copy_add(const str &obj) const {
 };
 
 // Insert elements before index
-void str::insert(str obj, ll index) {
+void str::insert(str obj, long long index) {
 	str result = read(0, index);
 	result += obj;
 	result += read(index, len);
@@ -370,9 +372,9 @@ void str::insert(str obj, ll index) {
 };
 
 // Number of characters in the buffer
-ll str::count(char ch) const {
-	ll cnt = 0;
-	for (ll i = 0; i < len; i++)
+long long str::count(char ch) const {
+	long long cnt = 0;
+	for (size_t i = 0; i < len; i++)
 		if (buffer[i] == ch)
 			cnt++;
 	return cnt;
@@ -381,14 +383,14 @@ ll str::count(char ch) const {
 /* Method returning an array of objects of class str
 Filled with strings separated by the ch character */
 str *str::parse(char ch) const {
-	const ll cnt = count(ch) + 1;
+	const long long cnt = count(ch) + 1;
 	str *result = new str[cnt];
 	if (cnt == 1) {
 		result[0] = str(read(0, len));
 		return result;
 	}
-	ll left = 0, k = 0;
-	for (ll i = 0; i < len; i++) {
+	long long left = 0, k = 0;
+	for (long long i = 0; i < len; i++) {
 		if (buffer[i] == ch) {
 			result[k++] = str(read(left, i));
 			left = i + 1;
@@ -405,10 +407,10 @@ char *str::to_char() const {
 };
 
 // Returns the integer value of the current object
-ll str::to_int() const {
-	ll k = 1;
-	ll result = 0;
-	for (ll i = len - 1; i > 0; i--) {
+long long str::to_int() const {
+	long long k = 1;
+	long long result = 0;
+	for (long long i = len - 1; i > 0; i--) {
 		result += (buffer[i] - '0') * k;
 		k *= 10;
 	}
@@ -426,7 +428,7 @@ long double str::to_float() const {
 	str stat = read(0, find_first('.'));
 	result += (long double)stat.to_int();
 	stat = read(find_first('.') + 1, len);
-	for (ll i = 0; i < stat.size(); i++) {
+	for (size_t i = 0; i < stat.size(); i++) {
 		if (buffer[0] == '-')
 			result -= (long double)(stat[i] - 48) * k;
 		else
@@ -454,10 +456,10 @@ str str::hex() const {
 /* Translates string "integer" values in the 10th system
 into various number systems up to and including the 16th
 8,388,607 is the maximum number that an object of the class can accept */
-str str::notation(ll k) const {
+str str::notation(long long k) const {
 	const str alphabet = "0123456789ABCDEF";
 	str result = "";
-	ll num = my_abs(to_int()), old = num;
+	long long num = my_abs(to_int()), old = num;
 	while (num > 0) {
 		result = alphabet[num % k] + result;
 		num /= k;
@@ -471,33 +473,33 @@ str str::notation(ll k) const {
 
 /* Converts a string value from various number systems to a 
 string with an "integer" value in the 10th system */
-str str::decimal(ll n) const {
+str str::decimal(long long n) const {
 	const str alphabet = "0123456789ABCDEF";
 	str result = "";
-	ll k = 1;
-	ll sum = 0;
-	for (ll i = len - 1; i > 0; i--) {
+	long long k = 1;
+	long long sum = 0;
+	for (long long i = len - 1; i > 0; i--) {
 		sum += alphabet.find_first(buffer[i]) * k;
 		k *= n;
 	}
 	if (buffer[0] == '-')
 		result = '-' + str(sum);
 	else
-		result = (sum + alphabet.find_first(buffer[0]) * k);
+		result = (sum + (long long)alphabet.find_first(buffer[0]) * k);
 	return result;
 }
 
 /* Adds an integer value to the buffer, converting each bit to a char
 9,223,372,036,854,775,807 is the maximum value the method can accept */
-void str::add(ll num) {
+void str::add(long long num) {
 	str result = "";
 	bool negative = false;
 	if (num < 0)
 		negative = true;
 	num = my_abs(num);
-	ll length = capacity(num);
+	long long length = capacity(num);
 	char ch;
-	for (ll i = 1; i <= length; i++) {
+	for (long long i = 1; i <= length; i++) {
 		ch = (num % 10) + 48;
 		result += ch;
 		num /= 10;
