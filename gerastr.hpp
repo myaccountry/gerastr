@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 long long my_abs(long long x);
