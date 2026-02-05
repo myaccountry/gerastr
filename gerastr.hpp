@@ -5,7 +5,7 @@ long long my_abs(long long x);
 
 class str {
 	long long len = 0;
-	char *buffer = nullptr;
+	char *buffer = new char[1];
 public:
 	// Operator overloading
 		// Internal:
@@ -47,7 +47,7 @@ public:
 			friend std::ostream &operator<<(std::ostream &out, const str &obj);
 			friend std::istream &operator>>(std::istream &in, str &obj);
 	// Class str methods
-		const long long size() const;
+		long long size() const;
 		size_t find_first(char ch) const;
 		size_t find_first_string(str obj) const;
 		bool contain(char ch) const;

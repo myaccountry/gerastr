@@ -19,7 +19,7 @@ long long capacity(long long x) {
 str::str() : len(0) {
 	buffer = new char[1];
 	buffer[0] = '\0';
-};
+}
 
 str::str(const char *arr) {
 	len = 0;
@@ -30,130 +30,130 @@ str::str(const char *arr) {
 	for (size_t i = 0; arr[i] != '\0'; i++)
 		buffer[i] = arr[i];
 	buffer[len] = '\0';
-};
+}
 
 str::str(const str &obj) : len(obj.len) {
 	buffer = new char[len + 1];
 	for (size_t i = 0; i < len; i++)
 		buffer[i] = obj[i];
-};
+    buffer[len] = '\0';
+}
 
 str::str(char ch) : len(1) {
 	buffer = new char[2];
 	buffer[0] = ch;
 	buffer[1] = '\0';
-};
+}
 
 str::str(long long num) : len(capacity(num)) {
 	str result = "";
 	result.add(num);
 	copy(result);
-};
+}
 
 str::str(int num) : len(capacity(static_cast<long long>(num))) {
 	str result = "";
 	result.add(static_cast<long long>(num));
 	copy(result);
-};
+}
 
 str::~str() {
 	delete[] buffer;
-};
+}
 
 str &str::operator=(const str &obj) {
 	if (this == &obj)
 		return *this;
-	len = obj.len;
 	copy(obj);
 	return *this;
-};
+}
 
 str &str::operator=(const char *arr) {
 	len = str(arr).len;
 	copy(str(arr));
 	return *this;
-};
+}
 
 str &str::operator=(char ch) {
 	len = str(ch).len;
 	copy(str(ch));
 	return *this;
-};
+}
 
 str &str::operator=(long long num) {
 	clear();
 	add(num);
 	return *this;
-};
+}
 
 str &str::operator=(int num) {
 	return operator=(static_cast<long long>(num));
-};
+}
 
 str &str::operator+=(const str &obj) {
 	str res = copy_add(obj);
 	len = res.len;
 	copy(res);
 	return *this;
-};
+}
 
 str &str::operator+=(const char *arr) {
 	str res = copy_add(str(arr));
 	len = res.len;
 	copy(res);
 	return *this;
-};
+}
 
 str &str::operator+=(char ch) {
 	str res = copy_add(str(ch));
 	len = res.len;
 	copy(res);
 	return *this;
-};
+}
 
 str &str::operator+=(long long num) {
 	add(num);
 	return *this;
-};
+}
 
 str &str::operator+=(int num) {
 	return operator+=(static_cast<long long>(num));
-};
+}
 
 str &str::operator*=(long long num) {
 	str result = str(read(0, len)) * num;
 	copy(result);
 	return *this;
-};
+}
 
 str str::operator+(const str &obj) const {
 	return copy_add(obj);
-};
+}
 
 str str::operator+(const char *arr) const {
 	return copy_add(str(arr));
-};
+}
 
 str str::operator+(char ch) const {
 	return copy_add(str(ch));
-};
+}
 
 str str::operator+(long long num) const {
 	str result = read(0, len);
 	result.add(num);
 	return result;
-};
+}
 
 str str::operator+(int num) const {
 	return operator+(static_cast<long long>(num));
-};
+}
 
 str str::operator*(long long num) const {
 	str result = "";
 	for (size_t i = 0; i < num; i++)
 		result += read(0, len);
 	return result;
-};
+}
 
 bool str::operator==(const str &obj) const {
 	if (len != obj.len)
@@ -162,48 +162,48 @@ bool str::operator==(const str &obj) const {
 		if (buffer[i] != obj[i])
 			return false;
 	return true;
-};
+}
 
 bool str::operator!=(const str &obj) const {
 	return !(obj == *this);
-};
+}
 bool str::operator>=(const str &obj) const {
 	if (len >= obj.len)
 		return true;
 	else
 		return false;
-};
+}
 bool str::operator<=(const str &obj) const {
 	if (len <= obj.len)
 		return true;
 	else
 		return false;
-};
+}
 bool str::operator>(const str &obj) const {
 	if (len > obj.len)
 		return true;
 	else
 		return false;
-};
+}
 bool str::operator<(const str &obj) const {
 	if (len < obj.len)
 		return true;
 	else
 		return false;
-};
+}
 
 str operator+(const char *left, const str &right) {
 	return str(left) + right;
-};
+}
 
 str operator+(char left, const str &right) {
 	return str(left) + right;
-};
+}
 
 std::ostream &operator<<(std::ostream &out, const str &obj) {
-	out << '"' << obj.buffer << '"';
+	out << obj.buffer;
 	return out;
-};
+}
 
 std::istream &operator>>(std::istream &in, str &obj) {
 	char *new_buffer = new char[1024];
@@ -213,7 +213,7 @@ std::istream &operator>>(std::istream &in, str &obj) {
 	obj = new_buffer;
 	delete[] new_buffer;
 	return in;
-};
+}
 
 /* Returns the character at the specified index in the buffer
 Index "-1" points to the last element of the buffer
@@ -222,17 +222,17 @@ char str::operator[](long long index) const {
 	if (index < 0)
 		index = len - index;
 	return buffer[index];
-};
+}
 
 // Returns the char array of the current buffer
 char *str::operator()() const {
 	return buffer;
-};
+}
 
 // Returns the size of the current buffer
-const long long str::size() const {
+long long str::size() const {
 	return len;
-};
+}
 
 // Returns the index of the searched element in the buffer
 size_t str::find_first(char ch) const {
@@ -240,7 +240,7 @@ size_t str::find_first(char ch) const {
 		if (buffer[i] == ch)
 			return i;
 	return '\0';
-};
+}
 
 // Returns the index of the first element of the search string in the buffer
 size_t str::find_first_string(str obj) const {
@@ -249,7 +249,7 @@ size_t str::find_first_string(str obj) const {
 			if (str(read(i, i + obj.len)) == obj)
 				return i;
 	return '\0';
-};
+}
 
 // Checks if the character is in the buffer
 bool str::contain(char ch) const {
@@ -257,7 +257,7 @@ bool str::contain(char ch) const {
 		if (buffer[i] == ch)
 			return true;
 	return false;
-};
+}
 
 // Checks if the string is in the buffer
 bool str::contain_string(str obj) const {
@@ -289,19 +289,19 @@ char *str::read(long long left, long long right) const {
 
 	new_buffer[length] = '\0';
 	return new_buffer;
-};
+}
 
 // Removes the last element
 void str::pop_back() {
 	str result = read(0, len - 1);
 	copy(result);
-};
+}
 
 // Removes the first element
 void str::pop_forward() {
 	str result = read(1, len);
 	copy(result);
-};
+}
 
 // Removes some number of elements by index
 void str::remove(long long index, long long amount) {
@@ -326,7 +326,7 @@ void str::remove(long long index, long long amount) {
 	str result = read(0, index);
 	result += read(index + amount, len);
 	copy(result);
-};
+}
 
 // Inverts a string at the given boundaries
 void str::reverse(long long left, long long right) {
@@ -336,17 +336,17 @@ void str::reverse(long long left, long long right) {
 	result += read(right, left - 1);
 	result += read(right + 1, len);
 	copy(result);
-};
+}
 
 // You dont need to use it :)
 void str::copy(const str &obj) {
 	delete[] buffer;
-	buffer = new char[obj.len + 1];
-	for (size_t i = 0; obj[i] != '\0'; i++)
+	buffer = new char[obj.size() + 1];
+	for (size_t i = 0; i < obj.size(); i++)
 		buffer[i] = obj[i];
-	buffer[obj.len] = '\0';
-	len = obj.len;
-};
+	buffer[obj.size()] = '\0';
+	len = obj.size();
+}
 
 // You dont need to use it :)
 str str::copy_add(const str &obj) const {
@@ -361,7 +361,7 @@ str str::copy_add(const str &obj) const {
 	str result = new_buffer;
 	delete[] new_buffer;
 	return result;
-};
+}
 
 // Insert elements before index
 void str::insert(str obj, long long index) {
@@ -369,7 +369,7 @@ void str::insert(str obj, long long index) {
 	result += obj;
 	result += read(index, len);
 	copy(result);
-};
+}
 
 // Number of characters in the buffer
 long long str::count(char ch) const {
@@ -378,7 +378,7 @@ long long str::count(char ch) const {
 		if (buffer[i] == ch)
 			cnt++;
 	return cnt;
-};
+}
 
 /* Method returning an array of objects of class str
 Filled with strings separated by the ch character */
@@ -399,12 +399,12 @@ str *str::parse(char ch) const {
 	if (left < len)
 		result[k] = str(read(left, len));
 	return result;
-};
+}
 
 // Returns the char array of the current object
 char *str::to_char() const {
 	return buffer;
-};
+}
 
 // Returns the integer value of the current object
 long long str::to_int() const {
@@ -419,7 +419,7 @@ long long str::to_int() const {
 	else
 		result *= -1;
 	return result;
-};
+}
 
 // Returns the floating point value of the current object
 long double str::to_float() const {
@@ -436,17 +436,17 @@ long double str::to_float() const {
 		k *= 0.1;
 	}
 	return result;
-};
+}
 
 // Translation into the 2th number system
 str str::bin() const {
 	return notation(2);
-};
+}
 
 // Translation into the 8th number system
 str str::oct() const {
 	return notation(8);
-};
+}
 
 // Translation into the 16th number system
 str str::hex() const {
@@ -469,7 +469,7 @@ str str::notation(long long k) const {
 	if (old == 0)
 		result += '0';
 	return result;
-};
+}
 
 /* Converts a string value from various number systems to a 
 string with an "integer" value in the 10th system */
@@ -510,7 +510,7 @@ void str::add(long long num) {
 	else
 		result = str(read(0, len)) + result;
 	copy(result);
-};
+}
 
 unsigned long str::hash() const {
 	unsigned long hash = 5381;
@@ -518,10 +518,10 @@ unsigned long str::hash() const {
         hash = ((hash << 5) + hash) + buffer[i];
     }
     return hash;
-};
+}
 
 // Clears the object buffer
 void str::clear() {
 	buffer = new char[1];
 	buffer[0] = '\0';
-};
+}
